@@ -1,7 +1,7 @@
 {
-  "name": "devtinder",
+  "name": "bookconnect",
   "version": "1.0.0",
-  "description": "tinder for devs",
+  "description": "BookConnect - connecting book lovers",
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",

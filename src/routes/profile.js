@@ -35,4 +35,23 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
   }
 });
 
+profileRouter.patch('/profile/edit/books',userAuth,async(req,res)=>{
+  try{
+    const loggedInUser = req.user;
+    const {books} = req.body;
+
+    loggedInUser.books = books;
+
+    await loggedInUser.save();
+
+    res.json({
+      message: `${loggedInUser.firstName}, your books updated successfuly`,
+      data: loggedInUser,
+    });
+  }catch(err){
+    res.status(400).send("ERROR : " + err.message);
+  }
+
+})
+
 module.exports = profileRouter;
