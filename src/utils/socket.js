@@ -12,7 +12,7 @@ const getSecretRoomId = (userId, targetUserId) => {
 const initializeSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: ["http://localhost:5173","http://localhost:3000", "https://your-bookconnect-app.vercel.app" ],
+      origin: ["http://localhost:5173","http://localhost:3000", "https://book-connect-frontend.vercel.app" ],
     },
   });
 
