@@ -19,7 +19,6 @@ const initializeSocket = (server) => {
   io.on("connection", (socket) => {
     socket.on("joinChat", ({ firstName, userId, targetUserId }) => {
       const roomId = getSecretRoomId(userId, targetUserId);
-      console.log(firstName + " joined Room : " + roomId);
       socket.join(roomId);
     });
 
@@ -29,7 +28,6 @@ const initializeSocket = (server) => {
         // Save messages to the database
         try {
           const roomId = getSecretRoomId(userId, targetUserId);
-          console.log(firstName + ":" + text);
 
           // TODO: Check if userId & targetUserId are friends
 
@@ -52,7 +50,7 @@ const initializeSocket = (server) => {
           await chat.save();
           io.to(roomId).emit("messageReceived", { firstName, lastName, text });
         } catch (err) {
-          console.log(err);
+          // Error handling - could log to a proper logging service
         }
       }
     );

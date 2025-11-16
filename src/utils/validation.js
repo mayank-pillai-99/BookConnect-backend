@@ -20,7 +20,7 @@ const validateEditProfileData = (req) => {
     "gender",
     "age",
     "about",
-    "books",
+    "favoriteGenres",
   ];
 
   const isEditAllowed = Object.keys(req.body).every((field) =>
@@ -30,7 +30,58 @@ const validateEditProfileData = (req) => {
   return isEditAllowed;
 };
 
+const validateBookData = (req) => {
+  const { title, author } = req.body;
+
+  if (!title || typeof title !== "string" || title.trim() === "") {
+    throw new Error("Book title is required and must be a valid string");
+  }
+
+  if (author && typeof author !== "string") {
+    throw new Error("Author must be a valid string");
+  }
+
+  return true;
+};
+
+const validateGenreData = (req) => {
+  const { genres } = req.body;
+
+  if (!Array.isArray(genres)) {
+    throw new Error("Genres must be an array");
+  }
+
+  const validGenres = [
+    "Fiction",
+    "Non-Fiction",
+    "Mystery",
+    "Romance",
+    "Science Fiction",
+    "Fantasy",
+    "Biography",
+    "History",
+    "Self-Help",
+    "Poetry",
+    "Thriller",
+    "Horror",
+    "Adventure",
+    "Other",
+  ];
+
+  const invalidGenres = genres.filter((genre) => !validGenres.includes(genre));
+
+  if (invalidGenres.length > 0) {
+    throw new Error(
+      `Invalid genres: ${invalidGenres.join(", ")}. Valid genres are: ${validGenres.join(", ")}`
+    );
+  }
+
+  return true;
+};
+
 module.exports = {
   validateSignUpData,
   validateEditProfileData,
+  validateBookData,
+  validateGenreData,
 };

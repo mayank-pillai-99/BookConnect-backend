@@ -64,8 +64,35 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "This is a default about of the user!",
     },
-    books: {
+    favoriteBooks: [
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        author: {
+          type: String,
+        },
+      },
+    ],
+    favoriteGenres: {
       type: [String],
+      enum: [
+        "Fiction",
+        "Non-Fiction",
+        "Mystery",
+        "Romance",
+        "Science Fiction",
+        "Fantasy",
+        "Biography",
+        "History",
+        "Self-Help",
+        "Poetry",
+        "Thriller",
+        "Horror",
+        "Adventure",
+        "Other",
+      ],
     },
   },
   {
