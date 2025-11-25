@@ -34,10 +34,12 @@ initalizeSocket(server);
 
 connectDB()
   .then(() => {
+    console.log("Database connection established...");
     server.listen(process.env.PORT, () => {
-      // Server started successfully
+      console.log("Server is successfully listening on port 7777...");
     });
   })
   .catch((err) => {
+    console.log(err);
     console.error("Database cannot be connected!!");
   });
