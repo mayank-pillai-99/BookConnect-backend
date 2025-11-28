@@ -123,4 +123,29 @@ profileRouter.patch("/profile/genres", userAuth, async (req, res) => {
   }
 });
 
+// Delete user profile
+profileRouter.delete("/profile/delete", userAuth, async (req, res) => {
+  try {
+    const user = req.user;
+
+    // Delete the user from the database
+    await user.deleteOne();
+
+    // Clear the cookie
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
+
+    res.json({
+      message: "User deleted successfully",
+      data: { _id: user._id, firstName: user.firstName, lastName: user.lastName },
+    });
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
+  }
+});
+
 module.exports = profileRouter;
