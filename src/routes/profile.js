@@ -42,13 +42,11 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
 // Add a book to favorite books
 profileRouter.post("/profile/books/add", userAuth, async (req, res) => {
   try {
-    // Validate book data
     validateBookData(req);
 
     const loggedInUser = req.user;
     const { title, author } = req.body;
 
-    // Check if book already exists
     const bookExists = loggedInUser.favoriteBooks.some(
       (book) => book.title.toLowerCase() === title.trim().toLowerCase()
     );
@@ -57,7 +55,6 @@ profileRouter.post("/profile/books/add", userAuth, async (req, res) => {
       throw new Error("This book is already in your favorites");
     }
 
-    // Add book to favorites
     loggedInUser.favoriteBooks.push({
       title: title.trim(),
       author: author ? author.trim() : "",
@@ -84,7 +81,6 @@ profileRouter.delete("/profile/books/remove", userAuth, async (req, res) => {
       throw new Error("Book ID is required");
     }
 
-    // Remove book using bookId (_id of the subdocument)
     loggedInUser.favoriteBooks = loggedInUser.favoriteBooks.filter(
       (book) => book._id.toString() !== bookId
     );
@@ -103,13 +99,11 @@ profileRouter.delete("/profile/books/remove", userAuth, async (req, res) => {
 // Update favorite genres
 profileRouter.patch("/profile/genres", userAuth, async (req, res) => {
   try {
-    // Validate genre data
     validateGenreData(req);
 
     const loggedInUser = req.user;
     const { genres } = req.body;
 
-    // Update genres
     loggedInUser.favoriteGenres = genres;
 
     await loggedInUser.save();
@@ -128,10 +122,8 @@ profileRouter.delete("/profile/delete", userAuth, async (req, res) => {
   try {
     const user = req.user;
 
-    // Delete the user from the database
     await user.deleteOne();
 
-    // Clear the cookie
     res.cookie("token", null, {
       expires: new Date(Date.now()),
       httpOnly: true,
